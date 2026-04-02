@@ -16,6 +16,7 @@ import RedshiftIcon from "./icons/redshift.svg";
 import SnowflakeIcon from "./icons/snowflake.svg";
 import PySparkIcon from "./icons/spark.svg";
 import SQLiteIcon from "./icons/sqlite.svg";
+import StarrocksIcon from "./icons/starrocks.svg";
 import SupabaseIcon from "./icons/supabase.svg";
 import TimeplusIcon from "./icons/timeplus.svg";
 import TrinoIcon from "./icons/trino.svg";
@@ -37,6 +38,7 @@ export type DBLogoName =
   | "datafusion"
   | "pyspark"
   | "redshift"
+  | "starrocks"
   | "supabase";
 
 /**
@@ -65,6 +67,7 @@ const URLS: Record<DBLogoName, string | undefined> = {
   datafusion: DataFusionIcon,
   pyspark: PySparkIcon,
   redshift: RedshiftIcon,
+  starrocks: StarrocksIcon,
   supabase: SupabaseIcon,
 };
 

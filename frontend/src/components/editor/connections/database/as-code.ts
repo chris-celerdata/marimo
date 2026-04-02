@@ -858,6 +858,37 @@ class DatabricksGenerator extends CodeGenerator<"databricks"> {
   }
 }
 
+class StarrocksGenerator extends CodeGenerator<"starrocks"> {
+  generateImports(): string[] {
+    return [];
+  }
+
+  generateConnectionCode(): string {
+    const ssl = this.connection.ssl
+      ? ", connect_args={'ssl': {'ssl-mode': 'preferred'}}"
+      : "";
+    const password = this.secrets.printPassword(
+      this.connection.password,
+      "STARROCKS_PASSWORD",
+      true,
+    );
+    const database = this.connection.database
+      ? `/${this.secrets.printInFString("database", this.connection.database)}`
+      : "";
+    const username = this.secrets.printInFString(
+      "username",
+      this.connection.username,
+    );
+    const host = this.secrets.printInFString("host", this.connection.host);
+    const port = this.secrets.printInFString("port", this.connection.port);
+
+    return dedent(`
+      DATABASE_URL = f"starrocks://${username}:${password}@${host}:${port}${database}"
+      engine = ${this.orm}.create_engine(DATABASE_URL${ssl})
+    `);
+  }
+}
+
 class SupabaseGenerator extends CodeGenerator<"supabase"> {
   generateImports(): string[] {
     if (this.connection.disable_client_pooling) {
@@ -934,6 +965,8 @@ class CodeGeneratorFactory {
         return new RedshiftGenerator(connection, orm, this.secrets);
       case "databricks":
         return new DatabricksGenerator(connection, orm, this.secrets);
+      case "starrocks":
+        return new StarrocksGenerator(connection, orm, this.secrets);
       case "supabase":
         return new SupabaseGenerator(connection, orm, this.secrets);
       default:

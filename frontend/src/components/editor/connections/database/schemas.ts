@@ -541,6 +541,21 @@ export const DatabricksConnectionSchema = z
   })
   .describe(FieldOptions.of({ direction: "two-columns" }));
 
+export const StarrocksConnectionSchema = z
+  .object({
+    type: z.literal("starrocks"),
+    host: hostField(),
+    port: portField(9030),
+    database: databaseField(),
+    username: usernameField(),
+    password: passwordField(),
+    ssl: z
+      .boolean()
+      .default(false)
+      .describe(FieldOptions.of({ label: "Use SSL" })),
+  })
+  .describe(FieldOptions.of({ direction: "two-columns" }));
+
 export const SupabaseConnectionSchema = z
   .object({
     type: z.literal("supabase"),
@@ -577,6 +592,7 @@ export const DatabaseConnectionSchema = z.discriminatedUnion("type", [
   PySparkConnectionSchema,
   RedshiftConnectionSchema,
   DatabricksConnectionSchema,
+  StarrocksConnectionSchema,
   SupabaseConnectionSchema,
 ]);
 

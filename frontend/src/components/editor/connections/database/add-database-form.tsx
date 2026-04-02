@@ -26,6 +26,7 @@ import {
   RedshiftConnectionSchema,
   SnowflakeConnectionSchema,
   SQLiteConnectionSchema,
+  StarrocksConnectionSchema,
   SupabaseConnectionSchema,
   TimeplusConnectionSchema,
   TrinoConnectionSchema,
@@ -190,6 +191,16 @@ const DATABASES = [
     logo: "databricks",
     connectionLibraries: {
       libraries: ["sqlalchemy", "sqlmodel", "ibis"],
+      preferred: "sqlalchemy",
+    },
+  },
+  {
+    name: "StarRocks",
+    schema: StarrocksConnectionSchema,
+    color: "#01808F",
+    logo: "starrocks",
+    connectionLibraries: {
+      libraries: ["sqlalchemy", "sqlmodel"],
       preferred: "sqlalchemy",
     },
   },
